@@ -54,12 +54,11 @@ ItemType stack::remove()
 
 void stack::print()
 {
-  cout << "Pilha: [";
+  cout << "Pilha:\n";
   for (int i = 0; i < stackLength; i++)
   {
-    cout << formation[i] << " ";
+    cout << formation[i] << "\n";
   }
-  cout << "]\n";
 }
 
 int stack::length()
