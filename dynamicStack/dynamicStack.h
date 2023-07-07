@@ -1,20 +1,22 @@
 typedef int ItemType;
-const int max_items = 100;
-using namespace std;
 
-class stack
+struct node
+{
+  ItemType value;
+  node *next;
+};
+
+class dynamicStack
 {
 private:
-  int stackLength;
-  ItemType *formation;
+  node *top;
 
 public:
-  stack();
-  ~stack();
+  dynamicStack();
+  ~dynamicStack();
   bool isEmpty();
   bool isFully();
   void insert(ItemType item);
   ItemType remove();
   void print();
-  int length();
 };
