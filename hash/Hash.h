@@ -1,4 +1,4 @@
-#include "Student.cpp"
+#include "../student/Student.cpp"
 using namespace std;
 
 class Hash
