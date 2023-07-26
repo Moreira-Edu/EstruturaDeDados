@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../student/Student.h"
+#include "../student/Student.cpp"
 
 struct node
 {

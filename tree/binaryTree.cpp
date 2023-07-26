@@ -1,16 +1,34 @@
 #include <iostream>
 #include <cstddef>
 #include "binaryTree.h"
+
 using namespace std;
 
-Bst()
+Bst::Bst()
 {
   root = NULL;
 }
 
-~Bst() {}
-void Bst::deleteTree(node *actualNode) {}
-node *Bst::getRoot() {}
+Bst::~Bst()
+{
+  deleteTree(root);
+}
+
+void Bst::deleteTree(node *actualNode)
+{
+  if (actualNode != NULL)
+  {
+    deleteTree(actualNode->leftParent);
+    deleteTree(actualNode->rightParent);
+    delete actualNode;
+  }
+}
+
+node *Bst::getRoot()
+{
+  return root;
+}
+
 bool Bst::isFully()
 {
   try
@@ -29,6 +47,7 @@ bool Bst::isEmpty()
 {
   return root == NULL;
 }
+
 void Bst::insertStudent(Student student)
 {
   if (isFully())
@@ -37,12 +56,12 @@ void Bst::insertStudent(Student student)
     return;
   }
 
-  node *newNode = new Node;
+  node *newNode = new node;
   newNode->student = student;
   newNode->rightParent = NULL;
   newNode->leftParent = NULL;
 
-  if (root = NULL)
+  if (root == NULL)
   {
     root = newNode;
   }
@@ -78,20 +97,22 @@ void Bst::insertStudent(Student student)
     }
   }
 }
+
 void Bst::removeStudent(Student student)
 {
-  deleteSearch(student, root);
+  cout << "Aluno" << student.getName() << " deletado!";
+  deleteSearch(root, student);
 }
 
 void Bst::deleteSearch(node *&actualNode, Student student)
 {
   if (student.getRa() < actualNode->student.getRa())
   {
-    deleteSearch(student, actualNode->leftParent);
+    deleteSearch(actualNode->leftParent, student);
   }
   else if (student.getRa() > actualNode->student.getRa())
   {
-    deleteSearch(student, actualNode->rightParent);
+    deleteSearch(actualNode->rightParent, student);
   }
   else
   {
@@ -103,22 +124,22 @@ void Bst::deleteNode(node *&actualNode)
 {
   node *tempNode = actualNode;
 
-  if (actualNode->leftParent == Null)
+  if (actualNode->leftParent == NULL)
   {
     actualNode = actualNode->rightParent;
     delete tempNode;
   }
-  else if (actualNode->rightParent == Null)
+  else if (actualNode->rightParent == NULL)
   {
     actualNode = actualNode->leftParent;
     delete tempNode;
   }
   else
   {
-    Student student;
-    getParent(student, actualNode);
-    actualNode->student = student;
-    deleSearch(student, actualNode->rightParent);
+    Student parentStudent;
+    getParent(parentStudent, actualNode);
+    actualNode->student = parentStudent;
+    deleteSearch(actualNode->rightParent, parentStudent);
   }
 }
 void Bst::getParent(Student &student, node *tempNode)
@@ -137,7 +158,7 @@ void Bst::searchStudent(Student &student, bool &search)
 {
   search = false;
   node *actualNode = root;
-  while (actualNode != NULL || search == true)
+  while (actualNode != NULL)
   {
     if (student.getRa() < actualNode->student.getRa())
     {
@@ -151,9 +172,42 @@ void Bst::searchStudent(Student &student, bool &search)
     {
       student = actualNode->student;
       search = true;
+      break;
     }
   }
 }
-void Bst::printInPreOrder(node *actualNode) {}
-void Bst::printInOrder(node *actualNode) {}
-void Bst::printInPosOrder(node *actualNode) {}
+void Bst::printInPreOrder(node *actualNode)
+{
+  if (actualNode != NULL)
+  {
+    cout << "{nome: " << actualNode->student.getName();
+    cout << ", RA: " << actualNode->student.getRa() << "}\n";
+
+    printInPreOrder(actualNode->leftParent);
+    printInPreOrder(actualNode->rightParent);
+  }
+}
+
+void Bst::printInOrder(node *actualNode)
+{
+  if (actualNode != NULL)
+  {
+    printInOrder(actualNode->leftParent);
+
+    cout << "{nome: " << actualNode->student.getName();
+    cout << ", RA: " << actualNode->student.getRa() << "}\n";
+
+    printInOrder(actualNode->rightParent);
+  }
+}
+void Bst::printInPosOrder(node *actualNode)
+{
+  if (actualNode != NULL)
+  {
+    printInPosOrder(actualNode->leftParent);
+    printInPosOrder(actualNode->rightParent);
+
+    cout << "{nome: " << actualNode->student.getName();
+    cout << ", RA: " << actualNode->student.getRa() << "}\n";
+  }
+}
